@@ -2,16 +2,15 @@ package main
 
 import (
 	"fmt"
-	"strconv"
 )
 
-type Node struct {
-	Val  int
-	Next *Node
+type node struct {
+	val  int
+	next *node
 }
 
 type LinkedList struct {
-	Head *Node
+	head *node
 }
 
 // Initialize a new list. The number of elements size.
@@ -19,122 +18,120 @@ func New(size int) *LinkedList {
 
 	if size <= 0 {
 		fmt.Println("ERROR (in New): list size is set incorrectly")
-		return &LinkedList{Head: &Node{}}
+		return nil
 	}
 
-	Head := Node{}
-	current := &Head
+	head := node{}
+	current := &head
 	for i := 1; i < size; i++ {
-		current.Next = &Node{}
-		current = current.Next
+		current.next = &node{}
+		current = current.next
 	}
-	return &LinkedList{Head: &Head}
+	return &LinkedList{head: &head}
 }
 
 // List output
 func (l *LinkedList) PrintList() {
-	display := ""
-	current := l.Head
+	current := l.head
 
-	for current.Next != nil {
-		display += strconv.Itoa(current.Val) + " -> "
-		current = current.Next
+	for current.next != nil {
+		fmt.Printf("%d -> ", current.val)
+		current = current.next
 	}
-	fmt.Println(display + strconv.Itoa(current.Val))
+	fmt.Printf("%d\n", current.val)
 }
 
 // Return the length of the list
 func (l *LinkedList) Size() int {
 	size := 1
-	current := l.Head
-	for current.Next != nil {
+	current := l.head
+	for current.next != nil {
 		size++
-		current = current.Next
+		current = current.next
 	}
 	return size
 }
 
 // Getting an item from the pos position.
 func (l *LinkedList) At(pos int) int {
-	current := l.Head
-	i := 0
-	for ; i != pos && current.Next != nil; i++ {
-		current = current.Next
-	}
 
-	if i != pos {
+	if pos < 0 || pos >= l.Size() {
 		fmt.Println("ERROR (in At): list index out of range")
 		return 0
 	}
 
-	return current.Val
+	current := l.head
+	for i := 0; i != pos && current.next != nil; i++ {
+		current = current.next
+	}
+
+	return current.val
 }
 
 // Add an item to the end of the list.
 func (l *LinkedList) Add(val int) {
-	current := l.Head
-	for current.Next != nil {
-		current = current.Next
+	current := l.head
+	for current.next != nil {
+		current = current.next
 	}
-	current.Next = &Node{Val: val, Next: nil}
+	current.next = &node{val: val, next: nil}
 }
 
 // Make the value at the pos position equal to val.
 func (l *LinkedList) UpdateAt(pos int, val int) {
-	current := l.Head
-	i := 0
-	for ; i != pos && current.Next != nil; i++ {
-		current = current.Next
-	}
 
-	if i != pos {
+	if pos < 0 || pos >= l.Size() {
 		fmt.Println("ERROR (in UpdateAt): list index out of range")
 		return
 	}
 
-	current.Val = val
+	current := l.head
+	for i := 0; i != pos && current.next != nil; i++ {
+		current = current.next
+	}
+
+	current.val = val
 }
 
 // Remove an element from the end.
 func (l *LinkedList) Pop() {
 
-	if l.Head.Next == nil {
+	if l.head.next == nil {
 		fmt.Println("ERROR (in Pop): Unable to delete element, list size is already 1")
 		return
 	}
 
-	current := l.Head
-	for current.Next.Next != nil {
-		current = current.Next
+	current := l.head
+	for current.next.next != nil {
+		current = current.next
 	}
-	current.Next = nil
+	current.next = nil
 }
 
 // Remove an item from the pos position.
 func (l *LinkedList) DeleteAt(pos int) {
 
-	if l.Head.Next == nil {
+	if pos < 0 || pos >= l.Size() {
+		fmt.Println("ERROR (in DeleteAt): list index out of range")
+		return
+	}
+
+	if l.head.next == nil {
 		fmt.Println("ERROR (in DeleteAt): Unable to delete element, list size is already 1")
 		return
 	}
 
 	if pos == 0 {
-		l.Head = l.Head.Next
+		l.head = l.head.next
 		return
 	}
 
-	current := l.Head
-	i := 0
-	for ; i != pos-1 && current.Next != nil; i++ {
-		current = current.Next
+	current := l.head
+	for i := 0; i != pos-1 && current.next != nil; i++ {
+		current = current.next
 	}
 
-	if i != pos-1 {
-		fmt.Println("ERROR (in DeleteAt): list index out of range")
-		return
-	}
-
-	current.Next = current.Next.Next
+	current.next = current.next.next
 }
 
 // Creating a linked list from a slice.
@@ -144,11 +141,11 @@ func NewFromSlise(s []int) *LinkedList {
 		fmt.Println("ERROR (in NewFromSlise): Unable convert an empty slice to a list")
 	}
 
-	Head := Node{Val: s[0]}
-	current := &Head
+	head := node{val: s[0]}
+	current := &head
 	for i := 0; i < len(s)-1; i++ {
-		current.Next = &Node{Val: s[i+1]}
-		current = current.Next
+		current.next = &node{val: s[i+1]}
+		current = current.next
 	}
-	return &LinkedList{Head: &Head}
+	return &LinkedList{head: &head}
 }
