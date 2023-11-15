@@ -3,7 +3,7 @@ package llist
 import "fmt"
 
 // Creating a linked list from a slice.
-func NewFromSlise(s []int) *LinkedList {
+func NewFromSlice(s []int) *LinkedList {
 
 	if len(s) == 0 {
 		fmt.Println("ERROR (in NewFromSlise): Unable convert an empty slice to a list")
