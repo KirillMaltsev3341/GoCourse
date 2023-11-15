@@ -12,7 +12,7 @@ func main() {
 	List.PrintList()
 	fmt.Println()
 
-	List = llist.NewFromSlise([]int{-11, 22, 33, 44, -55, 66, -77})
+	List = llist.NewFromSlice([]int{-11, 22, 33, 44, -55, 66, -77})
 	fmt.Println(List.Size())
 	List.PrintList()
 	fmt.Println("[0]:", List.At(0))
