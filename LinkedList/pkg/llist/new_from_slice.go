@@ -7,6 +7,7 @@ func NewFromSlise(s []int) *LinkedList {
 
 	if len(s) == 0 {
 		fmt.Println("ERROR (in NewFromSlise): Unable convert an empty slice to a list")
+		return nil
 	}
 
 	head := node{val: s[0]}
