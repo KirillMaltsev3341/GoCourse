@@ -5,6 +5,7 @@ type obj struct {
 	next  *obj
 }
 
+// LIFO
 type Stack struct {
 	top *obj
 }
